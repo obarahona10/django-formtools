@@ -283,7 +283,7 @@ class WizardView(TemplateView):
             return self.render_goto_step(wizard_goto_step)
 
         # Check if form was refreshed
-        management_form = ManagementForm(self.request.POST, prefix=self.prefix)
+        management_form = ManagementForm(self.request.POST, steps=self.steps.all, prefix=self.prefix)
         if not management_form.is_valid():
             raise SuspiciousOperation(_('ManagementForm data is missing or has been tampered.'))
 
@@ -582,7 +582,7 @@ class WizardView(TemplateView):
         context['wizard'] = {
             'form': form,
             'steps': self.steps,
-            'management_form': ManagementForm(prefix=self.prefix, initial={
+            'management_form': ManagementForm(prefix=self.prefix, steps=self.steps.all, initial={
                 'current_step': self.steps.current,
             }),
         }
