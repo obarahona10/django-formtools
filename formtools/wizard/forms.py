@@ -10,9 +10,9 @@ class ManagementForm(forms.Form):
     template_name = "django/forms/p.html"  # Remove when Django 5.0 is minimal version.
     current_step = forms.CharField(widget=forms.HiddenInput)
 
-    def __init__(self, steps, **kwargs):
-        self.steps = steps
-        super().__init__(**kwargs)
+    def __init__(self, *args, **kwargs):
+        self.steps = kwargs.pop("steps", None)
+        super().__init__(*args, **kwargs)
 
     def clean_current_step(self):
         value = self.cleaned_data["current_step"]
